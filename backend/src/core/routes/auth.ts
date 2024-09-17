@@ -18,18 +18,20 @@ router.post('/login', async (req, res) => {
 })
 
 router.post('/signup', async (req, res) => {
-  try{
-  const { error } = validateSignup(req.body)
-  if (error) return sendErrorResponse(res, error.details[0].message)
+  try {
+    const { error } = validateSignup(req.body)
+    if (error) return sendErrorResponse(res, error.details[0].message)
 
-  const user = await User.findOne({ phone: req.body.phone })
-  if (user) return sendErrorResponse(res, 'User with the Phone number already Exists')
+    const user = await User.findOne({ phone: req.body.phone })
+    if (user) return sendErrorResponse(res, 'User with the Phone number already Exists')
 
-  const newUser = new User(req.body)
-  const savedUser = await newUser.save()
-  return sendSuccessResponse(res, 'Signup Success', savedUser)
-}catch(err){
-  logger.info("Error occurred", err);
-}
+    const newUser = new User(req.body)
+    const savedUser = await newUser.save()
+    return sendSuccessResponse(res, 'Signup Success', savedUser)
+  } catch (err) {
+    console.log(err)
+    return sendErrorResponse(res, 'Error occurred')
+    // logger.info('Error occurred', err)
+  }
 })
 export default router

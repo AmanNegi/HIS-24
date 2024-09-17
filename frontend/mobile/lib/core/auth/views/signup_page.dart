@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:my_template/constants.dart';
 import 'package:my_template/core/auth/application/auth_manager.dart';
 import 'package:my_template/core/auth/application/location_service.dart';
+import 'package:my_template/core/home/presentation/role_page.dart';
 import 'package:my_template/globals.dart';
 import 'package:my_template/widgets/custom_text_field.dart';
 import 'package:my_template/widgets/loading_widget.dart';
@@ -18,8 +20,8 @@ class SignUpPage extends ConsumerStatefulWidget {
 
 class _SignUpPageState extends ConsumerState<SignUpPage> {
   late AuthManager _authManager;
-  String dropdownValue = "customer";
-  String email = "", password = "", username = "", phone = "";
+  String email = "", password = "", username = "", phone = "", state = "";
+  String aadhar = "";
 
   @override
   void initState() {
@@ -43,16 +45,10 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
       padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: Column(
         children: [
-          const SizedBox(height: kToolbarHeight),
-          Image.asset(
-            "assets/logo_app.png",
-            height: 100,
-            width: 100,
-          ),
-          SizedBox(height: 0.015 * getHeight(context)),
+          SizedBox(height: 0.15 * getHeight(context)),
           const Center(
             child: Text(
-              "Fresh Nest",
+              APP_NAME,
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -95,13 +91,26 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
             onChanged: (v) => phone = v,
             label: "Phone",
           ),
-          _getUserTypeDropDown(context),
+          const SizedBox(height: 10),
+          CustomTextField(
+            value: aadhar,
+            keyboardType: TextInputType.number,
+            onChanged: (v) => aadhar = v,
+            label: "Aadhar",
+          ),
+          const SizedBox(height: 10),
+          CustomTextField(
+            value: state,
+            keyboardType: TextInputType.text,
+            onChanged: (v) => state = v,
+            label: "State",
+          ),
           SizedBox(height: 0.025 * getHeight(context)),
           PrimaryButton(
             onPressed: () async {
-              if (locationService.locationData == null &&
+              if (locationService.locationData == null ||
                   locationService.locationData!.latitude == null &&
-                  locationService.locationData!.longitude == null) {
+                      locationService.locationData!.longitude == null) {
                 showToast("Location not found!");
                 locationService.requestLocation();
                 return;
@@ -111,16 +120,18 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                 locationService.locationData!.longitude!,
               );
 
-              final res = await _authManager.signUpUsingEmailPassword(
+              final res = await _authManager.signUpUsingPhone(
                 email: email.trim(),
                 name: username.trim(),
                 password: password.trim(),
                 phone: phone.trim(),
-                userType: dropdownValue,
                 location: location,
+                role: widget.role,
+                state: state.trim(),
+                aadhar: aadhar.trim(),
               );
               if (res == 1 && mounted) {
-                // goToPage(context, const RolePage(), clearStack: true);
+                goToPage(context, const RolePage(), clearStack: true);
               }
             },
             text: "Sign up",
@@ -147,23 +158,6 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  _getUserTypeDropDown(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: DropdownButtonFormField(
-        value: dropdownValue,
-        items: const [
-          DropdownMenuItem(value: "customer", child: Text("Customer")),
-          DropdownMenuItem(value: "farmer", child: Text("Farmer")),
-        ],
-        onChanged: (v) {
-          dropdownValue = v ?? dropdownValue;
-          setState(() {});
-        },
       ),
     );
   }

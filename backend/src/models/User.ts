@@ -10,10 +10,10 @@ const userSchema = new Schema<IUser>({
   aadhar: { type: String, required: true },
   role: { type: String, enum: ['farmer', 'contractor', 'officer'], required: true },
   address: {
-    street: { type: String },
-    city: { type: String },
+    // street: { type: String },
+    // city: { type: String },
     state: { type: String },
-    zipCode: { type: String },
+    // zipCode: { type: String },
   },
   location: {
     type: {
@@ -36,8 +36,8 @@ const userSchema = new Schema<IUser>({
 
 const validateLogin = (userData: any) => {
   return Joi.object({
-    phone: Joi.string().required().min(10).max(10),
-    password: Joi.string().required()
+    phone: Joi.string().required(),
+    password: Joi.string().required(),
   }).validate(userData)
 }
 
@@ -50,10 +50,10 @@ const validateSignup = (userData: any) => {
     aadhar: Joi.string().required(),
     role: Joi.string().valid('farmer', 'contractor', 'officer').required(),
     address: Joi.object({
-      street: Joi.string().required(),
-      city: Joi.string().required(),
+      // street: Joi.string(),
+      // // city: Joi.string(),
       state: Joi.string().required(),
-      zipCode: Joi.string().required(),
+      // zipCode: Joi.string(),
     }),
     location: Joi.object({
       type: Joi.string().valid('Point').required(),

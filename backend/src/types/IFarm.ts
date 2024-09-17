@@ -1,15 +1,15 @@
 import { Document, Schema } from 'mongoose'
 
 export interface IFarm extends Document {
+  title: string,
   owner: Schema.Types.ObjectId
   size: number // in acer
+  images: string[],
   location: {
     type: 'Point'
-    coordinates: [number, number] // [longitude, latitude]
+    coordinates: number[] // [longitude, latitude]
   }
-  city: string
   state: string
-
   waterSource: string
-  crops: [number]
+  crops: string[]
 }
