@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 export default function NavBar() {
   const navigate = useNavigate();
   return (
-    <div className=" text-white fixed top-0 z-[2] h-[8vh] w-[100%] bg-white-700 flex px-2 md lg:px-10  items-center shadow-md ">
+    <div className="bg-white   text-white fixed top-0 z-[2] h-[8vh] w-[100%] bg-white-700 flex px-2 md lg:px-10  items-center shadow-md ">
       <div className="">
         <PiFarmBold size={40} color="black" />
       </div>
