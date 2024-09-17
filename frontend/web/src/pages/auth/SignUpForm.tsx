@@ -20,7 +20,7 @@ import {
 
 const states = ['Andhra Pradesh', 'Bihar', 'Gujarat'];
 
-export default function SignUp() {
+export default function SignUpForm() {
 	const [formData, setFormData] = useState({
 		name: '',
 		email: '',
@@ -49,9 +49,13 @@ export default function SignUp() {
 	};
 
 	return (
-		<Card className='w-[50vw] m-auto'>
+		<Card className='md:w-[50vw] lg:w-[40vw] m-auto'>
 			<CardHeader>
-				<CardTitle className='text-2xl mx-auto'>Create an account</CardTitle>
+				<CardTitle className='text-3xl'>Get Started</CardTitle>
+				<CardDescription>
+					Welcome to AgriConnect - Let's create you account
+				</CardDescription>
+				<hr />
 			</CardHeader>
 			<CardContent>
 				<form
@@ -169,7 +173,11 @@ export default function SignUp() {
 						</div>
 					</div>
 					<CardFooter className='flex justify-center w-full my-2'>
-						<Button type='submit'>Submit</Button>
+						<Button
+							type='submit'
+							className='w-[70vw] mt-7'>
+							Submit
+						</Button>
 					</CardFooter>
 				</form>
 			</CardContent>
