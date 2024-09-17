@@ -6,7 +6,7 @@ const farmSchema = new Schema<IFarm>({
   title: { type: String, required: true },
   owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   size: { type: Number, required: true },
-  images: { type: [String], default: [] },
+  images: [{type: String, default: []}],
   state: { type: String, required: true },
   location: {
     type: {

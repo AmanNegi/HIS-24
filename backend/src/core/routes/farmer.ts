@@ -63,18 +63,3 @@ router.post('/:id/farm', async (req, res) => {
     return sendErrorResponse(res, error.message)
   }
 })
-
-// get all constracts of a farmer
-
-router.get('/:id/contracts', async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id)
-    if (!user) {
-      return sendErrorResponse(res, 'User not found')
-    }
-    const contracts = await Contract.find({ farmer: req.params.id })
-    return sendSuccessResponse(res, 'Contracts found', contracts)
-  } catch (error: any) {
-    return sendErrorResponse(res, error.message)
-  }
-})
