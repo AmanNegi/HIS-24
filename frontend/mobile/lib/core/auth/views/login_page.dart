@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_template/core/auth/application/auth_manager.dart';
 import 'package:my_template/core/auth/application/location_service.dart';
+import 'package:my_template/core/auth/views/signup_page.dart';
 import 'package:my_template/globals.dart';
 import 'package:my_template/widgets/custom_text_field.dart';
 import 'package:my_template/widgets/loading_widget.dart';
@@ -103,17 +104,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ),
           SizedBox(height: 0.015 * getHeight(context)),
           GestureDetector(
-            // onTap: () => goToPage(
-            //   context,
-            //   const SignUpPage(),
-            //   clearStack: true,
-            // ),
+            onTap: () => goToPage(
+              context,
+              SignUpPage(role: widget.role),
+              clearStack: true,
+            ),
             child: RichText(
               text: TextSpan(
                 style: Theme.of(context).textTheme.bodyMedium,
                 children: [
                   TextSpan(
-                      text: widget.role == "Farmer"
+                      text: widget.role == "farmer"
                           ? "Don't have a Farmer account?"
                           : "Don't have a Sponser account?"),
                   TextSpan(

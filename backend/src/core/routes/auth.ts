@@ -1,6 +1,7 @@
 import express from 'express'
 import { sendErrorResponse, sendSuccessResponse } from '../../utils/response'
 import { User, validateLogin, validateSignup } from '../../models/User'
+import logger from '../../utils/logger'
 export const router = express.Router()
 
 router.post('/login', async (req, res) => {
@@ -17,6 +18,7 @@ router.post('/login', async (req, res) => {
 })
 
 router.post('/signup', async (req, res) => {
+  try{
   const { error } = validateSignup(req.body)
   if (error) return sendErrorResponse(res, error.details[0].message)
 
@@ -26,5 +28,8 @@ router.post('/signup', async (req, res) => {
   const newUser = new User(req.body)
   const savedUser = await newUser.save()
   return sendSuccessResponse(res, 'Signup Success', savedUser)
+}catch(err){
+  logger.info("Error occurred", err);
+}
 })
 export default router

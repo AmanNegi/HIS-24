@@ -13,6 +13,7 @@ const app = express()
 const env = process.env.NODE_ENV || 'example'
 dotenv.config({ path: `.env.${env}` })
 
+
 app.use(setUpCORS)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
