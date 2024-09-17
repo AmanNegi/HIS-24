@@ -18,8 +18,6 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 
-const states = ['Andhra Pradesh', 'Bihar', 'Gujarat'];
-
 export default function SignUp() {
 	const [formData, setFormData] = useState({
 		name: '',
@@ -49,9 +47,9 @@ export default function SignUp() {
 	};
 
 	return (
-		<Card className='w-[50vw] m-auto'>
+		<Card className='w-[60vw] mx-auto'>
 			<CardHeader>
-				<CardTitle className='text-2xl mx-auto'>Create an account</CardTitle>
+				<CardTitle className='text-2xl'>Create an account</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<form
@@ -59,36 +57,39 @@ export default function SignUp() {
 					className='flex flex-col items-center'>
 					<div className='grid w-full items-center gap-4'>
 						<div className='flex flex-col space-y-1.5'>
+							<Label htmlFor='name'>First Name</Label>
 							<Input
 								id='name'
 								value={formData.name}
 								onChange={handleChange}
-								placeholder='Name'
-								required
+								placeholder='Your name'
 							/>
 						</div>
 
 						<div className='flex flex-col space-y-1.5'>
+							<Label htmlFor='email'>Email</Label>
 							<Input
 								id='email'
 								value={formData.email}
 								onChange={handleChange}
-								placeholder='someone@gmail.com'
+								placeholder='Your email'
 							/>
 						</div>
 
 						<div className='flex flex-col space-y-1.5'>
+							<Label htmlFor='password'>Password</Label>
 							<Input
 								id='password'
 								value={formData.password}
 								onChange={handleChange}
-								placeholder='Input password'
+								placeholder='Your password'
 								type='password'
 								autoComplete='off'
 							/>
 						</div>
 
 						<div className='flex flex-col space-y-1.5'>
+							<Label htmlFor='confirmPassword'>Confirm Password</Label>
 							<Input
 								id='confirmPassword'
 								value={formData.confirmPassword}
@@ -99,62 +100,63 @@ export default function SignUp() {
 						</div>
 
 						<div className='flex flex-col space-y-1.5'>
+							<Label htmlFor='phone'>Phone</Label>
 							<Input
 								id='phone'
 								value={formData.phone}
 								onChange={handleChange}
-								placeholder='Phone number'
+								placeholder='Enter your phone number'
 								type='tel'
 							/>
 						</div>
 
 						<div className='flex flex-col space-y-1.5'>
+							<Label htmlFor='state'>State</Label>
 							<Select
 								onValueChange={(value) => handleSelectChange('state', value)}>
 								<SelectTrigger>
 									<SelectValue placeholder='State' />
 								</SelectTrigger>
 								<SelectContent>
-									{states.map((state) => (
-										<SelectItem
-											key={state}
-											value={state}>
-											{state}
-										</SelectItem>
-									))}
+									<SelectItem value='Andhra Pradesh'>Andhra Pradesh</SelectItem>
+									<SelectItem value='Bihar'>Bihar</SelectItem>
+									<SelectItem value='Gujarat'>Gujarat</SelectItem>
 								</SelectContent>
 							</Select>
 						</div>
 
 						<div className='flex flex-col space-y-1.5'>
+							<Label htmlFor='city'>City</Label>
 							<Input
 								id='city'
 								value={formData.city}
 								onChange={handleChange}
-								placeholder='City'
-								required
+								placeholder='Enter your city'
 							/>
 						</div>
 
 						<div className='flex flex-col space-y-1.5'>
+							<Label htmlFor='street'>Street</Label>
 							<Input
 								id='street'
 								value={formData.street}
 								onChange={handleChange}
-								placeholder='Street address'
+								placeholder='Enter your street address'
 							/>
 						</div>
 
 						<div className='flex flex-col space-y-1.5'>
+							<Label htmlFor='zipCode'>Zip Code</Label>
 							<Input
 								id='zipCode'
 								value={formData.zipCode}
 								onChange={handleChange}
-								placeholder='Zip code'
+								placeholder='Enter your zip code'
 							/>
 						</div>
 
 						<div className='flex flex-col space-y-1.5'>
+							<Label htmlFor='role'>Role</Label>
 							<Select
 								onValueChange={(value) => handleSelectChange('role', value)}>
 								<SelectTrigger>
