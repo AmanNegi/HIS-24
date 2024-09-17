@@ -4,11 +4,12 @@ export interface IFarm extends Document {
   owner: Schema.Types.ObjectId
   size: number // in acer
   location: {
-    latitude: number
-    longitude: number
-    city: string
-    state: string
+    type: 'Point'
+    coordinates: [number, number] // [longitude, latitude]
   }
+  city: string
+  state: string
+
   waterSource: string
-  crops: Schema.Types.ObjectId[]
+  crops: [number]
 }

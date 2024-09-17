@@ -12,7 +12,7 @@ const contractSchema = new Schema<IContract>({
   contractStartDate: { type: Date, required: true },
   contractEndDate: { type: Date, required: true },
   contractPDF: { type: String, required: true },
-  paymentStatus: { type: String, enum: ['Pending', 'Partially Paid', 'Paid'], required: true },
+  paymentStatus: { type: String, enum: ['pending', 'partially paid', 'paid'], required: true },
   paymentMilestones: {
     milestone1: {
       amount: { type: Number, required: true },

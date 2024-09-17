@@ -7,7 +7,7 @@ router.post('/login', async (req, res) => {
   const { error } = validateLogin(req.body)
   if (error) return sendErrorResponse(res, error.details[0].message)
 
-  const user = await User.findOne({ email: req.body.email })
+  const user = await User.findOne({ phone: req.body.phone })
   if (!user) return sendErrorResponse(res, 'Invalid email or password')
 
   if (user.password !== req.body.password)
@@ -20,8 +20,8 @@ router.post('/signup', async (req, res) => {
   const { error } = validateSignup(req.body)
   if (error) return sendErrorResponse(res, error.details[0].message)
 
-  const user = await User.findOne({ email: req.body.email })
-  if (user) return sendErrorResponse(res, 'User with the email already Exists')
+  const user = await User.findOne({ phone: req.body.phone })
+  if (user) return sendErrorResponse(res, 'User with the Phone number already Exists')
 
   const newUser = new User(req.body)
   const savedUser = await newUser.save()
