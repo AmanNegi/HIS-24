@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
 import { IFarm } from '../types/IFarm'
-import Joi from 'joi'
+import Joi, { optional } from 'joi'
 
 const farmSchema = new Schema<IFarm>({
   title: { type: String, required: true },
@@ -43,7 +43,7 @@ const validateFarm = (farmData: any) => {
     images: Joi.array().items(Joi.string()).optional(),
   }).validate(farmData)
 }
-
 const Farm = model<IFarm>('Farm', farmSchema)
+Farm.schema.index({ location: '2dsphere' })
 
 export { validateFarm, Farm }
