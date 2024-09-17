@@ -16,13 +16,14 @@ router.post('/login', async (req, res) => {
       return sendErrorResponse(res, 'Invalid email or password')
 
     sendSuccessResponse(res, 'Login Success', user)
-  } catch (err: any) {
-    logger.info(err.message)
+  } catch (err) {
+    logger.info('Error occurred', err)
     return sendErrorResponse(res, 'Error occurred')
   }
 })
 
 router.post('/signup', async (req, res) => {
+ 
   try {
     const { error } = validateSignup(req.body)
     if (error) return sendErrorResponse(res, error.details[0].message)
@@ -38,3 +39,4 @@ router.post('/signup', async (req, res) => {
     return sendErrorResponse(res, 'Error occurred')
   }
 })
+
