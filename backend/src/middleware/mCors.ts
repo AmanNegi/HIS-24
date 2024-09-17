@@ -1,7 +1,8 @@
 import cors from 'cors'
 
 const setUpCORS = cors({
-  origin: ['*'], // add your source URL here
+  origin: ['*', 'http://localhost:5173'], // add your source URL here
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 })
