@@ -75,6 +75,7 @@ class AppState {
   final bool isLoggedIn;
   final bool isDarkTheme;
   final User? user;
+  
 
   const AppState({
     this.isLoggedIn = false,
@@ -83,6 +84,7 @@ class AppState {
   });
 
   factory AppState.initial() {
+    
     return const AppState(isLoggedIn: false, isDarkTheme: false);
   }
 

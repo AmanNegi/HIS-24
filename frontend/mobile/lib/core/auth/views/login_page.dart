@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_template/core/auth/application/auth_manager.dart';
@@ -50,7 +51,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           SizedBox(height: 0.025 * getHeight(context)),
           const Center(
             child: Text(
-              "XYZ",
+              "AgriConnect",
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -59,7 +60,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ),
           const Center(
             child: Text(
-              "Your motto here",
+              "Your harvest our commitment",
               style: TextStyle(
                 fontSize: 12,
               ),
@@ -70,14 +71,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             value: phone,
             keyboardType: TextInputType.phone,
             onChanged: (v) => phone = v,
-            label: "Phone",
+            label: tr('phone'),
           ),
           const SizedBox(height: 10),
           CustomTextField(
             value: password,
             isPassword: true,
             onChanged: (v) => password = v,
-            label: "Password",
+            label: tr("password"),
           ),
           SizedBox(height: 0.3 * getHeight(context)),
           PrimaryButton(
