@@ -1,7 +1,8 @@
-import SignUpForm from './pages/auth/SignUpForm';
-import Profile from './pages/User/Profile';
-import SignUp from './pages/auth/SignUp';
+
+import { RouterProvider } from 'react-router-dom';
+import { router } from './Router';
+
 
 export default function App() {
-	return <SignUp />;
+	return <RouterProvider router={router} />;
 }
