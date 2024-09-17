@@ -36,6 +36,7 @@ class AuthManager {
       );
       isLoading.value = false;
       Map data = json.decode(response.body);
+      print(response.body);
 
       if (response.statusCode == 200) {
         ref.read(authProvider).updateUserData(User.fromMap(data["data"]));

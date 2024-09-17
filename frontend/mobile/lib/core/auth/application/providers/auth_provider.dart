@@ -15,7 +15,8 @@ class AuthProvider extends ChangeNotifier {
   bool isOfficer() {
     return _user == null ? false : _user!.role == "officer";
   }
-bool isContractor() {
+
+  bool isContractor() {
     return _user == null ? false : _user!.role == "contractor";
   }
 
@@ -30,6 +31,7 @@ bool isContractor() {
       isDarkTheme: state.isDarkTheme,
       user: user, // maintain for non ref based access
     ));
+    _user = user;
     notifyListeners();
   }
 
@@ -38,4 +40,3 @@ bool isContractor() {
     notifyListeners();
   }
 }
-

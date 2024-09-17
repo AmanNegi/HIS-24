@@ -7,14 +7,19 @@ import 'package:http/http.dart' as http;
 import 'package:my_template/constants.dart';
 import 'package:my_template/core/home/application/home_provider.dart';
 import 'package:my_template/core/home/application/models/farm.dart';
+import 'package:my_template/core/home/models/contract.dart';
 import 'package:my_template/data/app_state.dart';
+import 'package:my_template/globals.dart';
 
 class HomeManager {
   final BuildContext context;
   Timer? timer;
   final WidgetRef ref;
 
-  HomeManager(this.context, this.ref) {
+  HomeManager(
+    this.context,
+    this.ref,
+  ) {
     attach();
   }
 
@@ -43,12 +48,16 @@ class HomeManager {
   }
 
   Future<List<Farm>> getAllItems() async {
-    return await getAllFarmerItems(appState.value.user!.id);
+    if (appCache.isFamer()) {
+      return await getAllFarmerItems(appState.value.user!.id);
+    } else {
+      return await getAll();
+    }
   }
 
   Future<List<Farm>> getAll() async {
     var response = await http.get(
-      Uri.parse("$API_URL/list/getAll"),
+      Uri.parse("$API_URL/farmer/listAll"),
     );
 
     Map data = json.decode(response.body);
@@ -87,13 +96,13 @@ Future<List<Farm>> getAllFarmerItems(String id) async {
   return [];
 }
 
-Future<void> addItem(Farm item) async {
-  await http.post(
+Future<int> addItem(Farm item) async {
+  final response = await http.post(
     Uri.parse("$API_URL/farmer/addFarm/${appState.value.user!.id}"),
     headers: {"content-type": "application/json"},
     body: json.encode(
       {
-        "owner": item.owner,
+        "title": item.title,
         "size": item.size,
         "images": item.images,
         "location": item.location.toMap(),
@@ -103,6 +112,15 @@ Future<void> addItem(Farm item) async {
       },
     ),
   );
+
+  print(response.body);
+  if (response.statusCode == 200) {
+    showToast("Farm Added Successfully");
+    return 1;
+  } else {
+    showToast("An error occurred!");
+    return -1;
+  }
 }
 
 Future<Farm?> getItemById(String id) async {
@@ -146,3 +164,18 @@ Future<Farm?> getItemById(String id) async {
 //   var data = json.decode(response.body);
 //   showToast(data["message"]);
 // }
+Future<int> createContract(Contract contract) async {
+  final response = await http.post(
+    Uri.parse("$API_URL/farmer/createContract/${appState.value.user!.id}"),
+    headers: {"content-type": "application/json"},
+    body: contract.toJson(),
+  );
+
+  if (response.statusCode == 200) {
+    showToast("Contract sent ");
+    return 1;
+  } else {
+    showToast("An error occurred!");
+    return -1;
+  }
+}

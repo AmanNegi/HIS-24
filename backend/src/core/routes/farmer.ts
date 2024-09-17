@@ -2,7 +2,7 @@ import express from 'express'
 import { sendErrorResponse, sendSuccessResponse } from '../../utils/response'
 import { User } from '../../models/User'
 import { Farm, validateFarm } from '../../models/Farm'
-import { Contract } from '../../models/Contract'
+
 export const router = express.Router()
 
 // get Farmer (User by) id
@@ -40,7 +40,7 @@ router.put('/update/:id', async (req, res) => {
 
 router.get('/getAll', async (req, res) => {
   try {
-    const users = await User.find({ role: 'Farmer' })
+    const users = await User.find({ role: 'farmer' })
     return sendSuccessResponse(res, 'Users found', users)
   } catch (error: any) {
     return sendErrorResponse(res, error.message)
@@ -79,3 +79,6 @@ router.get('/getAllFarms/:id', async (req, res) => {
   }
 })
 
+router.get('/listAll', async (req, res) => {
+  return sendSuccessResponse(res, 'Farms found', await Farm.find())
+})
