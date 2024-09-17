@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_template/core/auth/views/login_page.dart';
+import 'package:my_template/core/home/presentation/role_page.dart';
+import 'package:my_template/data/app_state.dart';
 import 'package:my_template/globals.dart';
 import 'package:my_template/utils/style.dart';
 import 'package:my_template/widgets/primary_button.dart';
@@ -12,6 +14,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -2,7 +2,7 @@ import { Document, Schema } from 'mongoose';
 export interface IContract extends Document {
     farmer: Schema.Types.ObjectId;
     contractor: Schema.Types.ObjectId;
-    crop: Schema.Types.ObjectId;
+    crop: string;
     area: number; // Area in acres acer
     price: number;
     quantity: number;

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:my_template/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:my_template/core/auth/application/models/user.dart';
@@ -10,7 +11,7 @@ import 'package:my_template/core/auth/application/models/user.dart';
 ValueNotifier<AppState> appState = ValueNotifier(AppState.initial());
 
 class AppCache {
-  final String _prefsKey = "fresh_nest";
+  final String _prefsKey = APP_NAME;
   LatLng? currentLocation;
 
   getDataFromDevice() async {
@@ -37,11 +38,32 @@ class AppCache {
     saveDataToDevice();
   }
 
-  bool isLoggedIn() {
-    // if (appState.value.user == null || appState.value.user!.id == "") {
-    //   return false;
-    // }
+  bool isFamer() {
+    if (appState.value.user == null || appState.value.user!.role == "") {
+      return false;
+    }
+    return appState.value.user!.role == "farmer";
+  }
 
+  bool isOfficer() {
+    if (appState.value.user == null || appState.value.user!.role == "") {
+      return false;
+    }
+    return appState.value.user!.role == "officer";
+  }
+
+  bool isContractor() {
+    if (appState.value.user == null || appState.value.user!.role == "") {
+      return false;
+    }
+    return appState.value.user!.role == "contractor";
+  }
+
+
+  bool isLoggedIn() {
+    if (appState.value.user == null || appState.value.user!.id == "") {
+      return false;
+    }
     return appState.value.isLoggedIn;
   }
 }
@@ -88,7 +110,7 @@ class AppState {
     return AppState(
       isLoggedIn: map['isLoggedIn'] ?? false,
       isDarkTheme: map['isDarkTheme'] ?? false,
-      user: User.fromMap(map['user']),
+      user: map['user'] != null ? User.fromMap(map['user']) : null,
     );
   }
 

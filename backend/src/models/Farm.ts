@@ -3,9 +3,10 @@ import { IFarm } from '../types/IFarm'
 import Joi from 'joi'
 
 const farmSchema = new Schema<IFarm>({
+  title: { type: String, required: true },
   owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   size: { type: Number, required: true },
-  city: { type: String, required: true },
+  images: [{type: String, default: []}],
   state: { type: String, required: true },
   location: {
     type: {
@@ -25,13 +26,13 @@ const farmSchema = new Schema<IFarm>({
     },
   },
   waterSource: { type: String, required: true },
-  crops: [{ type: String }],
+  crops: { type: [String], default: [] },
 })
 
 const validateFarm = (farmData: any) => {
   return Joi.object({
+    title: Joi.string().required(),
     size: Joi.number().required(),
-    city: Joi.string().required(),
     state: Joi.string().required(),
     location: Joi.object({
       type: Joi.string().valid('Point').required(),

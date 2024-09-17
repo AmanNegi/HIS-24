@@ -20,7 +20,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ListTile(
               onTap: () {
@@ -36,11 +35,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               },
               title: const Text('Dark Mode'),
             ),
-            PrimaryButton(
-              text: "Hello",
-              onPressed: () {
-              },
-            )
           ],
         ),
       ),

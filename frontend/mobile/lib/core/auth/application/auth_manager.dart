@@ -37,7 +37,7 @@ class AuthManager {
       isLoading.value = false;
       Map data = json.decode(response.body);
 
-      if (data["statusCode"] == 200) {
+      if (response.statusCode == 200) {
         ref.read(authProvider).updateUserData(User.fromMap(data["data"]));
         return 1;
       } else {
@@ -52,13 +52,15 @@ class AuthManager {
     }
   }
 
-  Future<int> signUpUsingEmailPassword({
+  Future<int> signUpUsingPhone({
     required String name,
     required String email,
     required String password,
     required String phone,
-    required String userType,
+    required String role,
     required LatLng location,
+    required String aadhar,
+    required String state,
   }) async {
     ref.read(authProvider).clearUserData();
     isLoading.value = true;
@@ -67,11 +69,18 @@ class AuthManager {
         Uri.parse("$API_URL/auth/signup"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
+          "role": role,
           "name": name,
           "email": email,
           "password": password,
           "phone": phone,
-          "userType": userType,
+          "aadhar": aadhar,
+          "address": {
+            "state": state,
+            // "city": "",
+            // "street": "",
+            // "zipCode": "",
+          },
           "location": {
             "type": "Point",
             "coordinates": [location.latitude, location.longitude]
@@ -80,10 +89,11 @@ class AuthManager {
       );
       isLoading.value = false;
       log(response.body);
+      print(response.body);
       Map<String, dynamic> data = json.decode(response.body);
       log(data);
 
-      if (data["statusCode"] == 200) {
+      if (response.statusCode == 200) {
         ref.read(authProvider).updateUserData(User.fromMap(data["data"]));
 
         return 1;

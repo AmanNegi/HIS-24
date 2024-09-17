@@ -12,9 +12,13 @@ class AuthProvider extends ChangeNotifier {
   User? getCurrentUser() => _user;
   bool isLoggedIn() => _user != null;
 
-  bool isAdmin() {
-    return _user == null ? false : _user!.role == "admin";
+  bool isOfficer() {
+    return _user == null ? false : _user!.role == "officer";
   }
+bool isContractor() {
+    return _user == null ? false : _user!.role == "contractor";
+  }
+
   bool isFarmer() {
     return _user == null ? false : _user!.role == "farmer";
   }

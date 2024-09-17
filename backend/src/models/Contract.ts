@@ -5,7 +5,7 @@ import Joi from 'joi'
 const contractSchema = new Schema<IContract>({
   farmer: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   contractor: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  crop: { type: Schema.Types.ObjectId, ref: 'Crop', required: true },
+  crop: { type: String, required: true },
   area: { type: Number, required: true },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
@@ -16,15 +16,15 @@ const contractSchema = new Schema<IContract>({
   paymentMilestones: {
     milestone1: {
       amount: { type: Number, required: true },
-      paid: { type: Boolean, required: true },
+      paid: { type: Boolean, required: true, default: false },
     },
     milestone2: {
       amount: { type: Number, required: true },
-      paid: { type: Boolean, required: true },
+      paid: { type: Boolean, required: true, default: false },
     },
     milestone3: {
       amount: { type: Number, required: true },
-      paid: { type: Boolean, required: true },
+      paid: { type: Boolean, required: true, default: false },
     },
   },
   cropInsurance: { type: Boolean, required: true },

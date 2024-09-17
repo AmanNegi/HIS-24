@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_template/core/auth/application/auth_manager.dart';
 import 'package:my_template/core/auth/application/location_service.dart';
 import 'package:my_template/core/auth/views/signup_page.dart';
+import 'package:my_template/core/home/presentation/role_page.dart';
 import 'package:my_template/globals.dart';
 import 'package:my_template/widgets/custom_text_field.dart';
 import 'package:my_template/widgets/loading_widget.dart';
@@ -97,7 +98,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               );
 
               if (res == 1 && mounted) {
-                // goToPage(context, const RolePage(), clearStack: true);
+                goToPage(context, const RolePage(), clearStack: true);
               }
             },
             text: "Log in",

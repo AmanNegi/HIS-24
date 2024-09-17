@@ -1,4 +1,7 @@
 {
   "login": "Login",
-  "settings": "Settings"
+  "settings": "Settings",
+  "home": "Home",
+  "contracts": "Contracts",
+  "chat": "Chat"
 }

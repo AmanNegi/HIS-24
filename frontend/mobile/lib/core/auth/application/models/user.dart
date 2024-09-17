@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
 class User {
   final String id;
   final String name;
@@ -7,6 +10,8 @@ class User {
   final String phone;
   final String role;
   final String aadhar;
+  final Address address;
+
 
   User({
     required this.id,
@@ -15,6 +20,7 @@ class User {
     required this.phone,
     required this.role,
     required this.aadhar,
+    required this.address,
   });
 
   User copyWith({
@@ -24,36 +30,40 @@ class User {
     String? phone,
     String? role,
     String? aadhar,
+    Address? address,
   }) {
     return User(
       id: id ?? this.id,
-      name: name ?? this.name,  
+      name: name ?? this.name,
       email: email ?? this.email,
       phone: phone ?? this.phone,
       role: role ?? this.role,
       aadhar: aadhar ?? this.aadhar,
+      address: address ?? this.address,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      '_id': id,
       'name': name,
       'email': email,
       'phone': phone,
       'role': role,
       'aadhar': aadhar,
+      'address': address.toMap(),
     };
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'] ?? '',
+      id: map['_id'] ?? '',
       name: map['name'] ?? '',
       email: map['email'] ?? '',
       phone: map['phone'] ?? '',
       role: map['role'] ?? '',
       aadhar: map['aadhar'] ?? '',
+      address: Address.fromMap(map['address']),
     );
   }
 
@@ -63,7 +73,7 @@ class User {
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, phone: $phone, role: $role, aadhar: $aadhar)';
+    return 'User(id: $id, name: $name, email: $email, phone: $phone, role: $role, aadhar: $aadhar, address: $address)';
   }
 
   @override
@@ -76,7 +86,8 @@ class User {
       other.email == email &&
       other.phone == phone &&
       other.role == role &&
-      other.aadhar == aadhar;
+      other.aadhar == aadhar &&
+      other.address == address;
   }
 
   @override
@@ -86,7 +97,8 @@ class User {
       email.hashCode ^
       phone.hashCode ^
       role.hashCode ^
-      aadhar.hashCode;
+      aadhar.hashCode ^
+      address.hashCode;
   }
 }
 
@@ -159,4 +171,59 @@ class Address {
   int get hashCode {
     return street.hashCode ^ city.hashCode ^ state.hashCode ^ zipCode.hashCode;
   }
+}
+
+class Location {
+  String type;
+  List<double> coordinates;
+
+  Location({
+    required this.type,
+    required this.coordinates,
+  });
+
+  Location copyWith({
+    String? type,
+    List<double>? coordinates,
+  }) {
+    return Location(
+      type: type ?? this.type,
+      coordinates: coordinates ?? this.coordinates,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'type': type,
+      'coordinates': coordinates,
+    };
+  }
+
+  factory Location.fromMap(Map<String, dynamic> map) {
+    return Location(
+      type: map['type'] ?? '',
+      coordinates: List<double>.from(map['coordinates']),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Location.fromJson(String source) =>
+      Location.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'Location(type: $type, coordinates: $coordinates)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
+
+    return other is Location &&
+        other.type == type &&
+        listEquals(other.coordinates, coordinates);
+  }
+
+  @override
+  int get hashCode => type.hashCode ^ coordinates.hashCode;
 }
