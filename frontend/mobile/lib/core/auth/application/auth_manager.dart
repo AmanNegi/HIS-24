@@ -17,11 +17,11 @@ class AuthManager {
 
   ValueNotifier<bool> isLoading = ValueNotifier(false);
 
-  Future<int> loginUsingEmailPassword({
-    required String email,
+  Future<int> loginUsingPhonePassword({
+    required String phone,
     required String password,
   }) async {
-    // ref.read(authProvider).clearUserData();
+    ref.read(authProvider).clearUserData();
     isLoading.value = true;
     try {
       var response = await http.post(
@@ -30,7 +30,7 @@ class AuthManager {
           "Content-Type": "application/json",
         },
         body: json.encode({
-          "email": email,
+          "phone": phone,
           "password": password,
         }),
       );

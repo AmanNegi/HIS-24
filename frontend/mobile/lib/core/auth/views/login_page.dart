@@ -8,7 +8,8 @@ import 'package:my_template/widgets/loading_widget.dart';
 import 'package:my_template/widgets/primary_button.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({super.key});
+  final String role;
+  const LoginPage({super.key, required this.role});
 
   @override
   ConsumerState<LoginPage> createState() => _LoginPageState();
@@ -16,7 +17,7 @@ class LoginPage extends ConsumerStatefulWidget {
 
 class _LoginPageState extends ConsumerState<LoginPage> {
   late AuthManager _authManager;
-  String email = "", password = "";
+  String phone = "", password = "";
 
   @override
   void initState() {
@@ -64,9 +65,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ),
           SizedBox(height: 0.025 * getHeight(context)),
           CustomTextField(
-            value: email,
-            onChanged: (v) => email = v,
-            label: "Email",
+            value: phone,
+            keyboardType: TextInputType.phone,
+            onChanged: (v) => phone = v,
+            label: "Phone",
           ),
           const SizedBox(height: 10),
           CustomTextField(
@@ -78,7 +80,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           SizedBox(height: 0.3 * getHeight(context)),
           PrimaryButton(
             onPressed: () async {
-              if (email.trim().isEmpty) {
+              if (phone.trim().isEmpty) {
                 showToast("Enter a valid email");
                 return;
               }
@@ -88,8 +90,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 return;
               }
 
-              var res = await _authManager.loginUsingEmailPassword(
-                email: email.trim(),
+              var res = await _authManager.loginUsingPhonePassword(
+                phone: phone.trim(),
                 password: password.trim(),
               );
 
@@ -110,7 +112,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               text: TextSpan(
                 style: Theme.of(context).textTheme.bodyMedium,
                 children: [
-                  const TextSpan(text: "Don't have an account?"),
+                  TextSpan(
+                      text: widget.role == "Farmer"
+                          ? "Don't have a Farmer account?"
+                          : "Don't have a Sponser account?"),
                   TextSpan(
                     text: " SignUp",
                     style: TextStyle(
