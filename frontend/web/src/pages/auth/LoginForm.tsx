@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { toast } from "react-toastify";
 import { BiHide, BiShow } from "react-icons/bi";
-
 import {
   Card,
   CardContent,
@@ -11,14 +11,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { useNavigate } from "react-router-dom";
+import login from "./application/auth";
+import ButtonLoader from "@/components/ButtonLoader";
 
 const PasswordField = ({
   handleFieldChange,
@@ -32,15 +27,16 @@ const PasswordField = ({
   };
 
   return (
-    <div className={` flex flex-col w-[100%] `}>
-      <div className="flex flex-row items-end">
+    <div className="flex flex-col w-[100%]">
+      <div className="flex items-end">
         <Input
           placeholder="Password"
           type={passwordVisible ? "text" : "password"}
           onChange={handleFieldChange}
         />
         <button
-          className="bg-black p-3 rounded-sm text-white m-auto ml-3 btn btn-primary"
+          type="button"
+          className="bg-black p-3 rounded-sm text-white ml-3"
           onClick={togglePasswordVisibility}
         >
           {passwordVisible ? <BiHide /> : <BiShow />}
@@ -51,53 +47,71 @@ const PasswordField = ({
 };
 
 export default function LoginForm() {
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const navigate = useNavigate();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData({ ...formData, [id]: value });
-  };
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault(); // Prevents the form from reloading the page
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(formData);
+    if (!phone) {
+      toast.error("Enter your phone to login 😥");
+      return;
+    }
+
+    if (!password) {
+      toast.error("Enter your password to login 😥");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const data = await login(phone, password);
+      if (data.statusCode === 200) {
+        navigate("/home");
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      toast.error("Error while logging in");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <Card className=" md:w-[50vw] lg:w-[40vw] m-auto">
+    <Card className="md:w-[50vw] lg:w-[40vw] m-auto">
       <CardHeader>
-      <CardTitle className="text-3xl my-4">Welcome Back 
-      </CardTitle>
-        <CardDescription>
-        Log in to your account
-        </CardDescription>
-        <hr/>
+        <CardTitle className="text-3xl my-4">Welcome Back</CardTitle>
+        <CardDescription>Log in to your account</CardDescription>
+        <hr />
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="flex flex-col items-center">
+        <form onSubmit={handleLogin} className="flex flex-col items-center">
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              {/* <Label htmlFor='email'>Email</Label> */}
               <Input
-                id="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
+                id="phone"
+                type="phone"
+                onChange={(e) => setPhone(e.target.value.toLowerCase())}
                 autoComplete="off"
-                placeholder="someone@gmail.com"
+                placeholder="Phone Number"
               />
             </div>
 
             <PasswordField handleFieldChange={(e) => setPassword(e.target.value)} />
           </div>
           <CardFooter className="flex justify-center w-full mt-8">
-            <Button type="submit">Submit</Button>
+            <Button
+              type="submit"
+              disabled={loading}
+              className={`${loading ? "cursor-not-allowed" : ""}`}
+            >
+              {loading ? <ButtonLoader /> : "Login"}
+            </Button>
           </CardFooter>
         </form>
       </CardContent>
