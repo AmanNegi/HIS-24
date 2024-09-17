@@ -1,4 +1,25 @@
 {
   "login": "लॉग इन",
-  "settings": "सेटिंग्स"
+  "settings": "सेटिंग्स",
+  "home": "होम",
+  "contracts": "अनुबंध",
+  "chat": "चैट",
+  "yourFarms": "आपके खेत",
+  "insurance": "बीमा",
+  "profile": "प्रोफाइल",
+  "prices": "मूल्य",
+  "schemes": "योजनाएँ",
+  "changeLanguage": "भाषा बदलें",
+  "darkMode": "डार्क मोड",
+  "welcome": "स्वागत है",
+  "logout": "लॉग आउट",
+  "selectYourRole": "अपनी भूमिका चुनें",
+  "farmer": "किसान",
+  "sponser": "प्रायोजक",
+  "partOfAuthority": "अधिकार का हिस्सा",
+  "phone": "फोन",
+  "password": "पासवर्ड",
+  "dontHaveAFarmerAccount": "क्या आपका किसान खाता नहीं है?",
+  "explore": "अन्वेषण करें",
+  "nearbyFarms": "निकटवर्ती फार्म"
 }

@@ -40,9 +40,11 @@ class MyApp extends ConsumerWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      theme: themeData(
-        state.isDarkTheme() ? Brightness.dark : Brightness.light,
-        state.isDarkTheme() ? darkColorScheme : lightColorScheme,
+      theme: ThemeData(
+        fontFamily: fontFamily,
+        brightness: state.isDarkTheme() ? Brightness.dark : Brightness.light,
+        primarySwatch: Colors.green,
+        useMaterial3: true,
       ),
       home: state.appState.isLoggedIn ? const RolePage() : const SplashScreen(),
     );

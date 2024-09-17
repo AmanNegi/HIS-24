@@ -11,8 +11,8 @@ const contractSchema = new Schema<IContract>({
   quantity: { type: Number, required: true },
   contractStartDate: { type: Date, required: true },
   contractEndDate: { type: Date, required: true },
-  contractPDF: { type: String, required: true },
-  paymentStatus: { type: String, enum: ['pending', 'partially paid', 'paid'], required: true },
+  // contractPDF: { type: String, required: true },
+  paymentStatus: { type: String, enum: ['pending', 'partial', 'paid'], required: true },
   paymentMilestones: {
     milestone1: {
       amount: { type: Number, required: true },
@@ -29,6 +29,7 @@ const contractSchema = new Schema<IContract>({
   },
   cropInsurance: { type: Boolean, required: true },
   signedDate: { type: Date, required: true },
+  status: { type: String, enum: ['negotiation', 'review', 'completed'] },
 })
 
 const validateContract = (contractData: any) => {
@@ -41,8 +42,8 @@ const validateContract = (contractData: any) => {
     quantity: Joi.number().required(),
     contractStartDate: Joi.date().required(),
     contractEndDate: Joi.date().required(),
-    contractPDF: Joi.string().required(),
-    paymentStatus: Joi.string().valid('Pending', 'Partially Paid', 'Paid').required(),
+    // contractPDF: Joi.string().required(),
+    paymentStatus: Joi.string().valid('pending', 'partial', 'paid').default("pending"),
     paymentMilestones: Joi.object({
       milestone1: Joi.object({
         amount: Joi.number().required(),
@@ -59,6 +60,7 @@ const validateContract = (contractData: any) => {
     }).required(),
     cropInsurance: Joi.boolean().required(),
     signedDate: Joi.date().required(),
+    status: Joi.string().default("negotiation")
   }).validate(contractData)
 }
 

@@ -17,4 +17,5 @@ export interface IContract extends Document {
     };
     cropInsurance: boolean;
     signedDate: Date;
+    status: String;
 }

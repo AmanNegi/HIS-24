@@ -79,3 +79,6 @@ router.get('/getAllFarms/:id', async (req, res) => {
   }
 })
 
+router.get('/listAll', async (req, res) => {
+  return sendSuccessResponse(res, 'Farms found', await Farm.find())
+})
