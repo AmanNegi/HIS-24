@@ -1,12 +1,12 @@
 import { Schema, model } from 'mongoose'
 import { IFarm } from '../types/IFarm'
-import Joi from 'joi'
+import Joi, { optional } from 'joi'
 
 const farmSchema = new Schema<IFarm>({
   title: { type: String, required: true },
   owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   size: { type: Number, required: true },
-  images: [{type: String, default: []}],
+  images: [{ type: String, default: [] }],
   state: { type: String, required: true },
   location: {
     type: {
@@ -40,9 +40,10 @@ const validateFarm = (farmData: any) => {
     }),
     waterSource: Joi.string().required(),
     crops: Joi.array().items(Joi.string()).optional(),
+    images: Joi.array().items(Joi.string()).optional(),
   }).validate(farmData)
 }
-
 const Farm = model<IFarm>('Farm', farmSchema)
+Farm.schema.index({ location: '2dsphere' })
 
 export { validateFarm, Farm }

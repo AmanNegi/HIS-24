@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:my_template/core/home/presentation/contractor/contractor_home_page.dart';
 import 'package:my_template/core/home/presentation/farmer/farmer_home_page.dart';
 import 'package:my_template/core/settings/views/settings_page.dart';
 import 'package:my_template/data/app_state.dart';
 import 'package:my_template/theme.dart';
 import 'package:my_template/widgets/bottom_nav_bar.dart';
 
-class FarmerMultiPage extends StatefulWidget {
-  const FarmerMultiPage({super.key});
+class ContractorMultiPage extends StatefulWidget {
+  const ContractorMultiPage({super.key});
 
   @override
-  State<FarmerMultiPage> createState() => _FarmerMultiPageState();
+  State<ContractorMultiPage> createState() => _ContractorMultiPageState();
 }
 
-class _FarmerMultiPageState extends State<FarmerMultiPage>
+class _ContractorMultiPageState extends State<ContractorMultiPage>
     with SingleTickerProviderStateMixin {
   int currentIndex = 0;
   late TabController tabController;
@@ -38,19 +39,19 @@ class _FarmerMultiPageState extends State<FarmerMultiPage>
         currentIndex: currentIndex,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: const Icon(Icons.home),
-            label: tr("home"),
+            icon: const Icon(Icons.explore_outlined),
+            label: tr("explore"),
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.business),
+            icon: const Icon(Icons.business_outlined),
             label: tr("contracts"),
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.chat),
+            icon: const Icon(Icons.chat_outlined),
             label: tr("chat"),
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.settings_outlined),
             label: tr("settings"),
           ),
         ],
@@ -59,13 +60,9 @@ class _FarmerMultiPageState extends State<FarmerMultiPage>
       body: TabBarView(
         controller: tabController,
         children: const [
-          FarmerHomePage(),
-          Center(
-            child: Text("Contracts Page"),
-          ),
-          Center(
-            child: Text("Chats Page"),
-          ),
+          ContractorHomePage(),
+          Center(child: Text("Under Progress")),
+          Center(child: Text("Under Progress")),
           SettingsPage(),
         ],
       ),

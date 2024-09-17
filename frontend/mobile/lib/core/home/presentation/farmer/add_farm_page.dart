@@ -1,10 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:my_template/core/auth/application/location_service.dart';
 import 'package:my_template/core/auth/application/models/user.dart';
 import 'package:my_template/core/home/application/home_manager.dart';
 import 'package:my_template/core/home/application/models/farm.dart';
 import 'package:my_template/data/app_state.dart';
+import 'package:my_template/globals.dart';
 import 'package:my_template/utils/firebase_storage.dart';
 import 'package:my_template/widgets/loading_widget.dart';
 import 'package:my_template/widgets/primary_button.dart';
@@ -40,6 +43,12 @@ class AddItemPageState extends State<AddItemPage> {
   ValueNotifier<bool> isLoading = ValueNotifier(false);
 
   @override
+  initState() {
+    super.initState();
+    locationService.requestLocation();
+  }
+
+  @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
@@ -47,7 +56,6 @@ class AddItemPageState extends State<AddItemPage> {
       isLoading: isLoading,
       child: _getAddItemPage(context),
     );
-    // return _getAddItemPage(context);
   }
 
   Scaffold _getAddItemPage(BuildContext context) {
@@ -72,33 +80,45 @@ class AddItemPageState extends State<AddItemPage> {
   _getFloatingActionButton(BuildContext context) {
     return FloatingActionButton.extended(
       onPressed: () async {
+        if (locationService.locationData == null ||
+            locationService.locationData!.latitude == null &&
+                locationService.locationData!.longitude == null) {
+          showToast("Location not found!");
+          locationService.requestLocation();
+          return;
+        }
+
+        final location = LatLng(
+          locationService.locationData!.latitude!,
+          locationService.locationData!.longitude!,
+        );
         isLoading.value = true;
         String itemId = const Uuid().v1();
 
         String url =
             await storageManager.uploadItemImage(itemId, File(imageUrl));
 
-        await addItem(Farm(
-          id: "x",
-          title: title,
-          owner: appState.value.user!.id,
-          size: size,
-          state: appState.value.user!.address.state,
-          location: Location(type: "Point", coordinates: [
-            appCache.currentLocation!.latitude,
-            appCache.currentLocation!.longitude,
-          ]),
-          waterSource: waterSource,
-          images: [url],
-          crops: _crops,
-        )
-            // name: name,
-            // listedBy: appState.value.user!.id,
-            // description: description,
-            // images: [url],
-            // price: price,
-            );
+        await addItem(
+          Farm(
+            id: "x",
+            title: title,
+            owner: appState.value.user!.id,
+            size: size,
+            state: appState.value.user!.address.state,
+            location: Location(
+              type: "Point",
+              coordinates: [
+                location.latitude,
+                location.longitude,
+              ],
+            ),
+            waterSource: waterSource,
+            images: [url],
+            crops: _crops,
+          ),
+        );
         isLoading.value = false;
+
         if (mounted) {
           Navigator.pop(context);
         }
@@ -177,7 +197,7 @@ class AddItemPageState extends State<AddItemPage> {
           TextInputType.text,
         ),
         _getTextField(
-          "Area (metre per square)",
+          "Area (acre)",
           ((e) => size = double.parse(e)),
           TextInputType.number,
         ),
