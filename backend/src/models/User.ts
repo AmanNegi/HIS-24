@@ -4,11 +4,11 @@ import Joi from 'joi'
 
 const userSchema = new Schema<IUser>({
   name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
+  email: { type: String, unique: true },
   password: { type: String, required: true },
   phone: { type: String, required: true },
   aadhar: { type: String, required: true },
-  role: { type: String, enum: ['Farmer', 'Contractor'], required: true },
+  role: { type: String, enum: ['farmer', 'contractor', 'officer'], required: true },
   address: {
     street: { type: String },
     city: { type: String },
@@ -16,26 +16,39 @@ const userSchema = new Schema<IUser>({
     zipCode: { type: String },
   },
   location: {
-    latitude: { type: Number, required: true },
-    longitude: { type: Number, required: true },
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true,
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+      validate: {
+        validator: function (coords: number[]) {
+          return coords.length === 2
+        },
+        message: 'Coordinates must be an array of two numbers [longitude, latitude].',
+      },
+    },
   },
 })
 
 const validateLogin = (userData: any) => {
   return Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
+    phone: Joi.string().required().min(10).max(10),
+    password: Joi.string().required()
   }).validate(userData)
 }
 
 const validateSignup = (userData: any) => {
   return Joi.object({
     name: Joi.string().required(),
-    email: Joi.string().email().required(),
+    email: Joi.string().email().optional(),
     password: Joi.string().required(),
     phone: Joi.string().required(),
     aadhar: Joi.string().required(),
-    role: Joi.string().valid('Farmer', 'Contractor').required(),
+    role: Joi.string().valid('farmer', 'contractor', 'officer').required(),
     address: Joi.object({
       street: Joi.string().required(),
       city: Joi.string().required(),
@@ -43,8 +56,8 @@ const validateSignup = (userData: any) => {
       zipCode: Joi.string().required(),
     }),
     location: Joi.object({
-      latitude: Joi.number().required(),
-      longitude: Joi.number().required(),
+      type: Joi.string().valid('Point').required(),
+      coordinates: Joi.array().items(Joi.number()).length(2).required(),
     }),
   }).validate(userData)
 }
