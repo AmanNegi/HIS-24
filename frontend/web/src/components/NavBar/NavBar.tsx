@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PiFarmBold } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button';
+import logo from '../../assets/logo_app 1.png';
 
 export default function NavBar() {
 	const navigate = useNavigate();
@@ -22,9 +23,10 @@ export default function NavBar() {
 	return (
 		<div className='bg-white text-white fixed top-0 z-[2] h-[8vh] w-[100%] bg-white-700 flex px-2 md lg:px-10 items-center shadow-md'>
 			<div className=''>
-				<PiFarmBold
-					size={40}
-					color='black'
+				<img
+					src={logo}
+					alt='logo'
+					width={60}
 				/>
 			</div>
 			<div className='flex-1'></div>

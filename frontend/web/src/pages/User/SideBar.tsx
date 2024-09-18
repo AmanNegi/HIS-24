@@ -7,7 +7,7 @@ import {
 	ExitIcon,
 	RocketIcon,
 	FileTextIcon,
-	ChevronLeftIcon,
+	ChevronRightIcon,
 } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -29,8 +29,9 @@ export default function SideBar() {
 			<SheetTrigger asChild>
 				<Button
 					variant='outline'
-					size='icon'>
-					<ChevronLeftIcon className='h-4 w-4' />
+					size='icon'
+					className='fixed top-20 left-2 rounded-full'>
+					<ChevronRightIcon className='h-10 w-10' />
 				</Button>
 			</SheetTrigger>
 			<SheetContent>
