@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'react-toastify';
 import { BiHide, BiShow } from 'react-icons/bi';
@@ -12,7 +12,6 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
-import login from './application/auth';
 import ButtonLoader from '@/components/ButtonLoader';
 
 const PasswordField = ({
@@ -49,8 +48,8 @@ export default function LoginForm() {
 	const [phone, setPhone] = useState('');
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
-
 	const navigate = useNavigate();
+
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault(); // Prevents the form from reloading the page
 
@@ -73,12 +72,15 @@ export default function LoginForm() {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({ phone, password }),
-				credentials: 'include',
+				credentials: 'include', // Include credentials in the request
 			});
 
 			const data = await response.json();
 
 			if (response.status === 200) {
+				// Save user data to localStorage
+				localStorage.setItem('isLoggedIn', 'true');
+				localStorage.setItem('user', JSON.stringify(data.user));
 				navigate('/home');
 			} else {
 				console.log(data);
