@@ -75,16 +75,15 @@ export default function LoginForm() {
 				credentials: 'include', // Include credentials in the request
 			});
 
-			const data = await response.json();
+			const result = await response.json();
 
 			if (response.status === 200) {
 				// Save user data to localStorage
 				localStorage.setItem('isLoggedIn', 'true');
-				localStorage.setItem('user', JSON.stringify(data.user));
+				localStorage.setItem('user', JSON.stringify(result.data));
 				navigate('/home');
 			} else {
-				console.log(data);
-				toast.error(data.message || 'Error while logging in');
+				toast.error(result.message || 'Error while logging in');
 			}
 		} catch (error) {
 			toast.error('Error while logging in');

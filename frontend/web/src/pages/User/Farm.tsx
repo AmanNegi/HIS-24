@@ -1,33 +1,46 @@
-import { Badge } from '@/components/ui/badge';
+import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
-export function Farm() {
+interface FarmProps {
+	farm: {
+		title: string;
+		size: number;
+		images: string[];
+		state: string;
+		location: {
+			type: string;
+			coordinates: number[];
+		};
+		waterSource: string;
+		crops: string[];
+	};
+}
+
+export default function Farm({ farm }: FarmProps) {
 	return (
 		<Card className='w-[35rem] h-[15rem] rounded-2xl overflow-hidden'>
-			<div className='grid grid-cols-12 h-full'>
+			<div className='grid grid-cols-12'>
 				<CardContent className='col-span-4  h-full p-0 overflow-hidden'>
 					<img
-						src='https://media.istockphoto.com/id/503646746/photo/farmer-spreading-fertilizer-in-the-field-wheat.jpg?s=1024x1024&w=is&k=20&c=Bjwq9nZjictwC1A2HpHFCas-cCXtDu8nbWXw81SYnfI='
-						alt='farm'
-						className='h-full w-full'
+						src={farm.images[0]}
+						alt={farm.title}
+						className='w-full object-contain'
 					/>
 				</CardContent>
 				<CardContent className='col-span-8 h-full p-4 flex flex-col items-start justify-evenly'>
-					<p className='text-3xl'>Khet 1</p>
-					<p>size</p>
+					<p className='text-3xl'>{farm.title}</p>
+					<p>Size: {farm.size} acres</p>
+					<p>State: {farm.state}</p>
+					<p>Water Source: {farm.waterSource}</p>
 					<div className='flex flex-wrap gap-2'>
-						<Badge className='bg-green-300 text-center text-md text-black leading-7 font-normal pointer-events-none inline-block'>
-							Sugarcane
-						</Badge>
-						<Badge className='bg-green-300 text-center text-md text-black leading-7 font-normal pointer-events-none inline-block'>
-							Rice
-						</Badge>
-						<Badge className='bg-green-300 text-center text-md text-black leading-7 font-normal pointer-events-none inline-block'>
-							Wheat
-						</Badge>
-						<Badge className='bg-green-300 text-center text-md text-black leading-7 font-normal pointer-events-none inline-block'>
-							Bottle Gourd
-						</Badge>
+						{farm.crops.map((crop, cropIndex) => (
+							<Badge
+								key={cropIndex}
+								className='bg-green-300 text-center text-md text-black leading-7 font-normal pointer-events-none inline-block'>
+								{crop}
+							</Badge>
+						))}
 					</div>
 				</CardContent>
 			</div>
